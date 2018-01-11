@@ -5,8 +5,8 @@
 .grid {
   display: grid;
   grid-gap: 0px;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
   height: 300px;
   width: 300px;
 }
@@ -25,4 +25,16 @@
 
 .active-occupied {
   background-color: red;
+}
+
+.btn-rotate {
+  margin-top: 1em;
+  font-size: 16px;
+}
+
+.label {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  border: none;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import BattleGrid from "./BattleGrid";
 import GameLog from "./GameLog";
 import PlayerGrid from "./PlayerGrid";
 import "../styles/Game.css";
@@ -21,9 +22,9 @@ export default class Game extends Component {
           <p className="title">Battleship</p>
         </div>
         <div className="shipgrid-container">
-          <PlayerGrid />
+          <BattleGrid />
           <GameLog />
-          <PlayerGrid />
+          <BattleGrid />
         </div>
         <div className="shipgrid-container">
           <PlayerGrid />

@@ -1,5 +1,5 @@
 .gamelog-container {
-  margin-top: 2em;
+  margin: 2em;
   padding: 1em;
   height: 250px;
   width: 300px;
@@ -9,6 +9,9 @@
 }
 
 .player-turn {
-  border-bottom: 1px solid gray;
-  margin-bottom: 1em;
+  font-size: 32px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  margin: 1em;
 }

@@ -56,35 +56,31 @@ export default class PlayerGrid extends Component {
 
   render() {
     const { grid, rotated } = this.state;
-    console.log(grid);
     return (
       <div className="grid-container">
         <div className="grid">
-          {grid.map((row, i) => {
-            return row.map((square, j) => {
-              if (square.status === "label") {
-                return (
-                  <div key={`${i}${j}`}
-                    className="grid-square label">
-                    {square.label}
-                  </div>
-                )
-              }
+        {grid.map((row, i) => {
+          return row.map((square, j) => {
+            if (square.status === "label") {
               return (
-                <div
-                  key={`${i}${j}`}
-                  className={classUpdate(square)}
-                  onMouseEnter={() => this.handleHover(i, j, "enter")}
-                  onMouseLeave={() => this.handleHover(i, j, "leave")}
-                  onClick={() => this.handleClick(i, j)}
-                />
-              );
-            });
-          })}
+                <div key={`${i}${j}`}
+                  className="grid-square label">
+                  {square.label}
+                </div>
+              )
+            }
+            return (
+              <div
+                key={`${i}${j}`}
+                className={classUpdate(square)}
+                onMouseEnter={() => this.handleHover(i, j, "enter")}
+                onMouseLeave={() => this.handleHover(i, j, "leave")}
+                onClick={() => this.handleClick(i, j)}
+              />
+            );
+          });
+        })}
         </div>
-        <button className="btn-rotate" onClick={this.handleRotate}>
-          Rotate direction
-        </button>
       </div>
     );
   }
