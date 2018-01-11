@@ -9,7 +9,9 @@ export default class Game extends Component {
   render() {
     return (
       <div className="game">
-        This is battleship!
+        <div className="title-container">
+          <p className="title">Battleship</p>
+        </div> 
       </div>
     )
   }

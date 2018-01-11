@@ -1,3 +1,13 @@
 .game {
-  color: red;
+  margin: 2em;
+}
+
+
+.title {
+  font-size: 48px;  
+}
+
+.title-container {
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgb(205, 205, 205);
 }
