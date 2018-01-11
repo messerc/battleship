@@ -1,5 +1,5 @@
 .game {
-  margin: 2em;
+  margin: 4em;
 }
 
 
@@ -8,6 +8,13 @@
 }
 
 .title-container {
-  padding-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
   border-bottom: 2px solid rgb(205, 205, 205);
+}
+
+.shipgrid-container {
+  display: flex;
+  justify-content: space-between;
 }

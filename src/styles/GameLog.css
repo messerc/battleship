@@ -1,0 +1,14 @@
+.gamelog-container {
+  margin-top: 2em;
+  padding: 1em;
+  height: 250px;
+  width: 300px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 1px 1px rgb(235, 235, 235);
+}
+
+.player-turn {
+  border-bottom: 1px solid gray;
+  margin-bottom: 1em;
+}

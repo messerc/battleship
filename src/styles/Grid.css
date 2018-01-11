@@ -1,0 +1,28 @@
+.grid-container {
+  margin: 2em;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 0px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  height: 300px;
+  width: 300px;
+}
+
+.grid-square {
+  border: 1px solid rgb(125, 125, 125);
+}
+
+.active {
+  background-color: rgb(205, 205, 205);
+}
+
+.occupied {
+  background-color: rgb(51, 153, 204);
+}
+
+.active-occupied {
+  background-color: red;
+}
