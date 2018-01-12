@@ -16,11 +16,19 @@
 }
 
 .active {
-  background-color: rgb(205, 205, 205);
+  background-color: rgb(185, 185, 185);
 }
 
 .occupied {
   background-color: rgb(51, 153, 204);
+}
+
+.path {
+  background-color: rgb(205, 205, 205);
+}
+
+.position {
+  margin: 1em;
 }
 
 .active-occupied {

@@ -13,7 +13,6 @@ export default class PlayerGrid extends Component {
     super(props);
 
     this.state = {
-      grid: gridGenerator(),
       rotated: false,
       activeSpot: null
     };
@@ -22,7 +21,8 @@ export default class PlayerGrid extends Component {
   }
 
   handleHover(row, col, type) {
-    const { grid, rotated } = this.state;
+    const { grid } = this.props;
+    const { rotated } = this.state; 
     const data = {
       grid: grid.slice(),
       rotated,
@@ -31,11 +31,12 @@ export default class PlayerGrid extends Component {
       type
     };
     const updatedGrid = hoverUpdate(data);
-    this.setState({ grid: updatedGrid });
+    this.props.updateGrid(this.props.player, updatedGrid, "shipsGrid");
   }
 
   handleClick(row, col) {
-    const { grid, rotated } = this.state;
+    const { grid } = this.props;
+    const { rotated } = this.state; 
     const data = {
       grid: grid.slice(),
       rotated,
@@ -43,7 +44,7 @@ export default class PlayerGrid extends Component {
       col
     };
     const updatedGrid = placeShip(data);
-    this.setState({ grid: updatedGrid });
+    this.props.updateGrid(this.props.player, updatedGrid, "shipsGrid");
   }
 
   handleRotate() {
@@ -55,8 +56,7 @@ export default class PlayerGrid extends Component {
   }
 
   render() {
-    const { grid, rotated } = this.state;
-    console.log(grid);
+    const { grid } = this.props;
     return (
       <div className="grid-container">
         <div className="grid">

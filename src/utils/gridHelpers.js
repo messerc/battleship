@@ -34,7 +34,7 @@ const gridGenerator = () => {
 const isOccupied = (grid, row, col, rotated) => {
   let isTaken = false;
   if (!rotated) {
-    if (row + 3 <= 10) {
+    if (row + 3 <= 11) {
       for (let i = 0; i < 3; i++) {
         if (grid[row + i][col].status === "occupied") {
           isTaken = true;
@@ -42,7 +42,7 @@ const isOccupied = (grid, row, col, rotated) => {
       }
     }
   } else {
-    if (col + 3 <= 10) {
+    if (col + 3 <= 11) {
       for (let i = 0; i < 3; i++) {
         if (grid[row][col + i].status === "occupied") {
           isTaken = true; 
@@ -59,13 +59,13 @@ const placeShip = ({ grid, row, col, rotated }) => {
     return grid;
   } else {
     if (!rotated) {
-      if (row + 3 <= 10) {
+      if (row + 3 <= 11) {
         for (let i = 0; i < 3; i++) {
           grid[row + i][col].status = "occupied";
         }
       }
     } else {
-      if (col + 3 <= 10) {
+      if (col + 3 <= 11) {
         for (let i = 0; i < 3; i++) {
           grid[row][col + i].status = "occupied";
         }
@@ -79,13 +79,13 @@ const hoverUpdate = ({ grid, row, col, rotated, type }) => {
   const bool = type === "enter" ? true : false;
   const position = grid[row][col];
   if (!rotated) {
-    if (row + 3 <= 10) {
+    if (row + 3 <= 11) {
       for (let i = 0; i < 3; i++) {
         grid[row + i][col].hover = bool;
       }
     }
   } else {
-    if (col + 3 <= 10) {
+    if (col + 3 <= 11) {
       for (let i = 0; i < 3; i++) {
         grid[row][col + i].hover = bool;
       }
