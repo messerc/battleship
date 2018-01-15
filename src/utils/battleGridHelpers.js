@@ -59,12 +59,16 @@ const placeMove = ({ grid, row, col, rotated, player, opponent }) => {
       }
     })
     if (isSunk(opponentShip, row, col)) {
+      opponent.sunkenShips++; 
       opponentShip.positions.forEach(position => {
         const { row, col } = position;
         opponent.shipsGrid[row][col].status = "sunk"; 
         grid[row][col].status = "sunk";
       }); 
       turnLog.push(`${player} sank a ${opponentShip.type}!`)
+      if (opponent.sunkenShips === 4) {
+        turnLog.push(`${player} wins!`); 
+      }
     }
   } else {
     turnLog.push("It's a miss");

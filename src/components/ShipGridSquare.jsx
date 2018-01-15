@@ -1,5 +1,5 @@
 import React from "react";
-import { classUpdate } from "../utils/gridHelpers";
+import { classUpdate } from "../utils/shipGridHelpers";
 
 const ShipGridSquare = ({ square, i, j, handleHover, handleClick, shipsSet }) => {
   if (square.status === "label") {

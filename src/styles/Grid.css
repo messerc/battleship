@@ -15,16 +15,46 @@
   border: 1px solid rgb(125, 125, 125);
 }
 
+.position {
+  margin: 1em;
+}
+
+.btn-rotate {
+  margin-top: 1em;
+  font-size: 16px;
+}
+
+.label {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  border: none;
+}
+
+.player-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.grid-title {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgb(205, 205, 205);
+}
+
+.placement-text {
+  margin-top: 1em;
+}
+
+
+/* === Grid coloring classes === */
+
 .active {
   background-color: rgb(185, 185, 185);
 }
 
 .occupied {
   background-color: rgb(80, 81, 82);
-}
-
-.position {
-  margin: 1em;
 }
 
 .active-occupied {
@@ -51,25 +81,5 @@
   background-color: #C34141;
 }
 
-.btn-rotate {
-  margin-top: 1em;
-  font-size: 16px;
-}
+/* =========================== */
 
-.label {
-  display: flex;
-  align-self: center;
-  justify-content: center;
-  border: none;
-}
-
-.player-title {
-  font-size: 48px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-}
-
-.grid-title {
-  margin-bottom: 20px;
-  border-bottom: 1px solid rgb(205, 205, 205);
-}

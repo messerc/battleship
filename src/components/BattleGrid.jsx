@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { gridGenerator } from "../utils/gridHelpers";
 import {
   hoverUpdate,
   classUpdate,
@@ -48,14 +47,20 @@ export default class BattleGrid extends Component {
       type
     };
     const updatedGrid = hoverUpdate(data);
-    this.props.updateGrid(this.props.player, updatedGrid, "movesGrid");
+    this.props.updateGrids(this.props.player, updatedGrid, "movesGrid");
     this.setState({
       activeSpot: `${dictionary[col]}${row}`
     });
   }
 
   handleClick(row, col) {
-    const { grid, opponent, player } = this.props;
+    const { grid, opponent, player, activePlayer } = this.props;
+    if (!activePlayer) {
+      return; 
+    }
+    if (player !== activePlayer) {
+      return alert("It's not your turn!");
+    }
     const { rotated } = this.state;
     const data = {
       player,
@@ -67,7 +72,7 @@ export default class BattleGrid extends Component {
     };
     const updatedGame = placeMove(data);
     if (updatedGame.isUpdated) {
-      this.props.updateGrid(
+      this.props.updateGrids(
         this.props.player,
         updatedGame.grid,
         "movesGrid",
@@ -91,7 +96,7 @@ export default class BattleGrid extends Component {
     return (
       <div className="grid-container">
         <p className="player-title">{player}</p>
-        <p className="grid-title"> Attack Grid </p>
+        <p className="grid-title"> Battle Grid </p>
         <div
           className="grid"
           onMouseLeave={() => this.setState({ activeSpot: null })}

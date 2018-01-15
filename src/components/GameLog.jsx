@@ -12,8 +12,12 @@ export default class GameLog extends Component {
   renderTurn() {
     if (!this.props.allShipsSet) {
       return "Set your ships"
-    } else {
-      return "X's turn"
+    } else if (this.props.gameStarting) {
+      return "Game starting..."
+    } else if (this.props.gameOver) {
+      return `${this.props.winner} wins!!`
+    } {
+      return `${this.props.activePlayer}'s turn`
     }
   }
 

@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import {
-  gridGenerator,
-  isOccupied,
   placeShip,
   hoverUpdate
-} from "../utils/gridHelpers";
+} from "../utils/shipGridHelpers";
 
 import ShipGridSquare from "./ShipGridSquare";
 import "../styles/Grid.css";
 
-export default class PlayerGrid extends Component {
+export default class ShipGrid extends Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +34,7 @@ export default class PlayerGrid extends Component {
       currentShip
     };
     const updatedGrid = hoverUpdate(data);
-    this.props.updateGrid(this.props.player, updatedGrid, "shipsGrid");
+    this.props.updateGrids(this.props.player, updatedGrid, "shipsGrid");
   }
 
   handleClick(row, col) {
@@ -52,7 +50,7 @@ export default class PlayerGrid extends Component {
     };
     const gameUpdate = placeShip(data);
     if (gameUpdate.isUpdated) {
-      this.props.updateGrid(this.props.player, gameUpdate.grid, "shipsGrid");
+      this.props.updateGrids(this.props.player, gameUpdate.grid, "shipsGrid");
       this.props.updateShips(this.props.player, gameUpdate.ships, "shipsGrid"); 
     }
   }
@@ -65,13 +63,11 @@ export default class PlayerGrid extends Component {
     });
   }
 
-  render() {
-    const { grid, ships, shipsSet } = this.props;
-    return (
-      <div className="grid-container">
-        <p className="grid-title"> Ships Grid </p>
-        <div className="grid">
-          {grid.map((row, i) => {
+  renderContent() {
+    const { activePlayer, player, grid, shipsSet, gameOver } = this.props;
+    if (player === activePlayer || gameOver) {
+      return (
+        grid.map((row, i) => {
             return row.map((square, j) => {
               return (
                 <ShipGridSquare
@@ -85,8 +81,35 @@ export default class PlayerGrid extends Component {
                 />
               );
             });
-          })}
+          })
+      )
+    } else {
+      return (
+        <p>{activePlayer}'s turn</p>
+      )
+    }
+  }
+
+  renderPlacement() {
+    const { activePlayer, player, ships, currentShip, shipsSet } = this.props;
+    if (player === activePlayer && !shipsSet) {
+      return (
+        <p className="placement-text">Now placing: {ships[currentShip].type} - size: {ships[currentShip].size}</p>
+      )
+    } else {
+      return null
+    }
+  }
+
+  render() {
+    const { grid, ships, shipsSet } = this.props;
+    return (
+      <div className="grid-container">
+        <p className="grid-title"> Ships Grid </p>
+        <div className="grid">
+          {this.renderContent()}
         </div>
+        {this.renderPlacement()}
         <button className="btn-rotate" onClick={this.handleRotate}>
           Rotate direction
         </button>
