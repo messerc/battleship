@@ -64,18 +64,18 @@ const placeShip = ({ grid, row, col, rotated, ships, currentShip }) => {
       if (row + ships[currentShip].size <= 11) {
         for (let i = 0; i < ships[currentShip].size; i++) {
           grid[row + i][col].status = "occupied";
+          grid[row + i][col].type = ships[currentShip].type
           grid[row + i][col].hover = false;
-          // TODO: insert positions into this ship 
-          // ships[currentShip].positions.push()
+          ships[currentShip].positions.push({row: row + i, col, hit: false}); 
         }
       }
     } else {
       if (col + ships[currentShip].size <= 11) {
         for (let i = 0; i < ships[currentShip].size; i++) {
           grid[row][col + i].status = "occupied";
-          grid[row + i][col].hover = false;
-          // TODO: insert positions into this ship 
-          // ships[currentShip].positions.push()
+          grid[row][col + i].type = ships[currentShip].type;          
+          grid[row][col + i].hover = false;
+          ships[currentShip].positions.push({row, col: col + i, hit: false}); 
         }
       }
     }
@@ -114,8 +114,10 @@ const classUpdate = square => {
     classes += "active";
   } else if (square.status === "occupied") {
     classes += "occupied";
-  } else if (square.hit) {
+  } else if (square.status === "hit") {
     classes += "hit";
+  } else if (square.status === "sunk") {
+    classes+= "sunk";
   }
   return classes;
 };

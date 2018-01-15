@@ -55,19 +55,19 @@ export default class BattleGrid extends Component {
   }
 
   handleClick(row, col) {
-    const { grid, opponent } = this.props;
+    const { grid, opponent, player } = this.props;
     const { rotated } = this.state;
     const data = {
+      player,
       grid: grid.slice(),
       rotated,
       row,
-      col
+      col,
+      opponent
     };
-    const updatedGrid = placeMove(data);
-    if (opponent[row][col].status === "occupied") {
-      console.log("I hit you dawg");
-    }
-    this.props.updateGrid(this.props.player, updatedGrid, "movesGrid");
+    const updatedGame = placeMove(data);
+    this.props.updateGrid(this.props.player, updatedGame.grid, "movesGrid", updatedGame.opponent);
+    this.props.updateLog(updatedGame.log);
   }
 
   handleRotate() {

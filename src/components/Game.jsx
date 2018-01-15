@@ -14,28 +14,28 @@ const ships = [
     size: 5,
     durability: 5,
     set: false,
-    positions: null
+    positions: []
   },
   {
     type: "Battleship",
     size: 4,
     durability: 4,
     set: false,
-    positions: null
+    positions: []
   },
   {
     type: "Cruiser",
     size: 3,
     durability: 3,
     set: false,
-    positions: null
+    positions: []
   },
   {
     type: "Submarine",
     size: 3,
     durability: 3,
     set: false,
-    positions: null
+    positions: []
   }
 ];
 
@@ -59,17 +59,21 @@ export default class Game extends Component {
         currentShip: 0,
         shipsSet: false
       },
-      allShipsSet: false
+      allShipsSet: false,
+      logs: []
     };
 
     this.updateGrid = this.updateGrid.bind(this);
     this.updateShips = this.updateShips.bind(this);
+    this.updateLog = this.updateLog.bind(this);
   }
 
   updateShips(player, updatedShips) {
     const { ships, currentShip, shipsSet } = this.state[player];
     let updatedPlayer;
+    let finishedSettingShips = false;
     if (currentShip + 1 === ships.length) {
+      finishedSettingShips = true;
       updatedPlayer = {
         ...this.state[player],
         ships: updatedShips,
@@ -87,7 +91,8 @@ export default class Game extends Component {
     }); 
   }
 
-  updateGrid(player, grid, type) {
+  updateGrid(player, grid, type, opponent) {
+    const other = player === "player1" ? "player2" : "player1";
     const updatedPlayer = {
       ...this.state[player],
       [this.state[player][type]]: grid
@@ -95,10 +100,26 @@ export default class Game extends Component {
     this.setState({
       [player]: updatedPlayer
     });
+    if (opponent) {
+      console.log(other);
+      console.log(opponent);
+      this.setState({
+        [other]: opponent
+      })
+    }
   }
 
+  updateLog(messages) {
+    const updatedLog = this.state.logs.slice();
+    updatedLog.unshift({turn: this.state.logs.length + 1, messages});
+    this.setState({
+      logs: updatedLog
+    });
+  }
+
+
   render() {
-    const { player1, player2 } = this.state;
+    const { player1, player2, allShipsSet, logs } = this.state;
     return (
       <div className="game">
         <div className="title-container">
@@ -107,14 +128,16 @@ export default class Game extends Component {
         <div className="shipgrid-container">
           <BattleGrid 
             grid={player1.movesGrid}
-            opponent={player2.shipsGrid}
+            opponent={player2}
             updateGrid={this.updateGrid}
+            updateLog={this.updateLog}
             player="player1" />
-          <GameLog />
+          <GameLog allShipsSet={allShipsSet} logs={logs} />
           <BattleGrid 
             grid={player2.movesGrid}
-            opponent={player1.shipsGrid}
+            opponent={player1}
             updateGrid={this.updateGrid}
+            updateLog={this.updateLog}
             player="player2" />
         </div>
         <div className="shipgrid-container">
