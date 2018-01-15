@@ -1,15 +1,14 @@
 import React from "react";
-import { classUpdate } from "../utils/gridHelpers";
+import { classUpdate } from "../utils/battleGridHelpers";
 
-const GridSquare = ({ square, i, j, handleHover, handleClick, shipsSet }) => {
+const BattleGridSquare = ({ square, i, j, handleHover, handleClick, shipsSet }) => {
   if (square.status === "label") {
     return <div className="grid-square label">{square.label}</div>;
   }
-  if (shipsSet) {
+  if (!shipsSet) {
     return (
       <div
         className={classUpdate(square)}
-        onMouseLeave={() => handleHover(i, j, "leave")}
       />
     );
   }
@@ -23,4 +22,4 @@ const GridSquare = ({ square, i, j, handleHover, handleClick, shipsSet }) => {
   );
 };
 
-export default GridSquare;
+export default BattleGridSquare;

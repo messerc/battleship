@@ -18,7 +18,6 @@ export default class GameLog extends Component {
   }
 
   render() {
-    console.log(this.props.logs);
     return (
       <div className="game-log">
         <p className="player-turn">{this.renderTurn()}</p>

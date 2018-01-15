@@ -6,7 +6,7 @@ import {
   placeMove
 } from "../utils/battleGridHelpers";
 
-import GridSquare from "./GridSquare";
+import BattleGridSquare from "./BattleGridSquare";
 import "../styles/Grid.css";
 
 const dictionary = {
@@ -66,8 +66,15 @@ export default class BattleGrid extends Component {
       opponent
     };
     const updatedGame = placeMove(data);
-    this.props.updateGrid(this.props.player, updatedGame.grid, "movesGrid", updatedGame.opponent);
-    this.props.updateLog(updatedGame.log);
+    if (updatedGame.isUpdated) {
+      this.props.updateGrid(
+        this.props.player,
+        updatedGame.grid,
+        "movesGrid",
+        updatedGame.opponent
+      );
+      this.props.updateLog(updatedGame.log);
+    }
   }
 
   handleRotate() {
@@ -79,28 +86,31 @@ export default class BattleGrid extends Component {
   }
 
   render() {
-    const { grid } = this.props;
+    const { grid, shipsSet, player } = this.props;
     const { rotated } = this.state;
     return (
       <div className="grid-container">
+        <p className="player-title">{player}</p>
+        <p className="grid-title"> Attack Grid </p>
         <div
           className="grid"
           onMouseLeave={() => this.setState({ activeSpot: null })}
         >
-        {grid.map((row, i) => {
-          return row.map((square, j) => {
-            return (
-              <GridSquare
-                key={`${i}${j}`}
-                i={i}
-                j={j}
-                square={square}
-                handleHover={this.handleHover}
-                handleClick={this.handleClick}
-              />
-            );
-          });
-        })}
+          {grid.map((row, i) => {
+            return row.map((square, j) => {
+              return (
+                <BattleGridSquare
+                  key={`${i}${j}`}
+                  i={i}
+                  j={j}
+                  square={square}
+                  shipsSet={shipsSet}
+                  handleHover={this.handleHover}
+                  handleClick={this.handleClick}
+                />
+              );
+            });
+          })}
         </div>
         <div className="position">Active Spot: {this.state.activeSpot}</div>
       </div>

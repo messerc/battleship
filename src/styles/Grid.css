@@ -31,12 +31,24 @@
   background-color: red;
 }
 
+.enemy-hit {
+  background-color: rgb(142, 187, 91);
+}
+
+.enemy-sunk {
+  background-color: #1C6E1C;
+}
+
+.enemy-miss {
+  background-color: gray;
+}
+
 .hit {
   background-color: yellow;
 }
 
 .sunk {
-  background-color: red;
+  background-color: #C34141;
 }
 
 .btn-rotate {
@@ -49,4 +61,15 @@
   align-self: center;
   justify-content: center;
   border: none;
+}
+
+.player-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.grid-title {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgb(205, 205, 205);
 }

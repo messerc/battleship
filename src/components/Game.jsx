@@ -5,39 +5,9 @@ import GameLog from "./GameLog";
 import PlayerGrid from "./PlayerGrid";
 
 import { gridGenerator, setPositions } from "../utils/gridHelpers";
+import { makeShips } from "../utils/gameHelpers";
 
 import "../styles/Game.css";
-
-const ships = [
-  {
-    type: 'Carrier',
-    size: 5,
-    durability: 5,
-    set: false,
-    positions: []
-  },
-  {
-    type: "Battleship",
-    size: 4,
-    durability: 4,
-    set: false,
-    positions: []
-  },
-  {
-    type: "Cruiser",
-    size: 3,
-    durability: 3,
-    set: false,
-    positions: []
-  },
-  {
-    type: "Submarine",
-    size: 3,
-    durability: 3,
-    set: false,
-    positions: []
-  }
-];
 
 export default class Game extends Component {
   constructor() {
@@ -48,14 +18,14 @@ export default class Game extends Component {
       player1: {
         shipsGrid: gridGenerator(),
         movesGrid: gridGenerator(),
-        ships: ships.slice(),
+        ships: makeShips(),
         currentShip: 0,
         shipsSet: false,
       },
       player2: {
         shipsGrid: gridGenerator(),
         movesGrid: gridGenerator(),
-        ships: ships.slice(),
+        ships: makeShips(),
         currentShip: 0,
         shipsSet: false
       },
@@ -70,10 +40,9 @@ export default class Game extends Component {
 
   updateShips(player, updatedShips) {
     const { ships, currentShip, shipsSet } = this.state[player];
+    const other = player === "player1" ? "player2" : "player1";
     let updatedPlayer;
-    let finishedSettingShips = false;
     if (currentShip + 1 === ships.length) {
-      finishedSettingShips = true;
       updatedPlayer = {
         ...this.state[player],
         ships: updatedShips,
@@ -89,6 +58,11 @@ export default class Game extends Component {
     this.setState({
       [player]: updatedPlayer
     }); 
+    if (currentShip + 1 === ships.length && this.state[other].shipsSet) {
+      this.setState({
+        allShipsSet: true
+      })
+    }
   }
 
   updateGrid(player, grid, type, opponent) {
@@ -98,7 +72,8 @@ export default class Game extends Component {
       [this.state[player][type]]: grid
     };
     this.setState({
-      [player]: updatedPlayer
+      [player]: updatedPlayer,
+      activePlayer: other
     });
     if (opponent) {
       console.log(other);
@@ -128,13 +103,16 @@ export default class Game extends Component {
         <div className="shipgrid-container">
           <BattleGrid 
             grid={player1.movesGrid}
+            shipsSet={allShipsSet}
             opponent={player2}
             updateGrid={this.updateGrid}
             updateLog={this.updateLog}
             player="player1" />
+
           <GameLog allShipsSet={allShipsSet} logs={logs} />
           <BattleGrid 
             grid={player2.movesGrid}
+            shipsSet={allShipsSet}
             opponent={player1}
             updateGrid={this.updateGrid}
             updateLog={this.updateLog}

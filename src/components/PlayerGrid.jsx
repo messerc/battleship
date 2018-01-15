@@ -6,7 +6,7 @@ import {
   hoverUpdate
 } from "../utils/gridHelpers";
 
-import GridSquare from "./GridSquare";
+import ShipGridSquare from "./ShipGridSquare";
 import "../styles/Grid.css";
 
 export default class PlayerGrid extends Component {
@@ -69,11 +69,12 @@ export default class PlayerGrid extends Component {
     const { grid, ships, shipsSet } = this.props;
     return (
       <div className="grid-container">
+        <p className="grid-title"> Ships Grid </p>
         <div className="grid">
           {grid.map((row, i) => {
             return row.map((square, j) => {
               return (
-                <GridSquare
+                <ShipGridSquare
                   key={`${i}${j}`}
                   i={i}
                   j={j}
