@@ -48,7 +48,7 @@ const gridGenerator = () => {
       } else if (i !== 0 && j === 0) {
         row.push({ status: "label", label: i });
       } else {
-        row.push({ status: "empty", hover: false, hit: false, shipType: null });        
+        row.push({ status: "empty", hover: false, hit: false, type: null });        
       }
     }
     grid.push(row);

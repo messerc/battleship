@@ -34,6 +34,7 @@ export default class BattleGrid extends Component {
     this.handleRotate = this.handleRotate.bind(this);
     this.handleHover = this.handleHover.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleExit = this.handleExit.bind(this);
   }
 
   handleHover(row, col, type) {
@@ -53,10 +54,16 @@ export default class BattleGrid extends Component {
     });
   }
 
+  handleExit() {
+    this.setState({
+      activeSpot: null
+    });
+  }
+
   handleClick(row, col) {
     const { grid, opponent, player, activePlayer } = this.props;
     if (!activePlayer) {
-      return; 
+      return;
     }
     if (player !== activePlayer) {
       return alert("It's not your turn!");
@@ -71,7 +78,7 @@ export default class BattleGrid extends Component {
       opponent
     };
     const updatedGame = placeMove(data);
-    if (updatedGame.isUpdated) {
+    if (updatedGame) {
       this.props.updateGrids(
         this.props.player,
         updatedGame.grid,
@@ -90,32 +97,34 @@ export default class BattleGrid extends Component {
     });
   }
 
+  renderSquares() {
+    const { grid, shipsSet } = this.props; 
+    return grid.map((row, i) => {
+      return row.map((square, j) => {
+        return (
+          <BattleGridSquare
+            key={`${i}${j}`}
+            i={i}
+            j={j}
+            square={square}
+            shipsSet={shipsSet}
+            handleHover={this.handleHover}
+            handleClick={this.handleClick}
+          />
+        );
+      });
+    });
+  }
+
   render() {
-    const { grid, shipsSet, player } = this.props;
+    const { player } = this.props;
     const { rotated } = this.state;
     return (
       <div className="grid-container">
         <p className="player-title">{player}</p>
         <p className="grid-title"> Battle Grid </p>
-        <div
-          className="grid"
-          onMouseLeave={() => this.setState({ activeSpot: null })}
-        >
-          {grid.map((row, i) => {
-            return row.map((square, j) => {
-              return (
-                <BattleGridSquare
-                  key={`${i}${j}`}
-                  i={i}
-                  j={j}
-                  square={square}
-                  shipsSet={shipsSet}
-                  handleHover={this.handleHover}
-                  handleClick={this.handleClick}
-                />
-              );
-            });
-          })}
+        <div className="grid" onMouseLeave={this.handleExit}>
+          {this.renderSquares()} 
         </div>
         <div className="position">Active Spot: {this.state.activeSpot}</div>
       </div>

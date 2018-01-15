@@ -30,29 +30,29 @@ const isSunk = (ship, row, col) => {
   return sunk;
 }
 
+const getOpponentShipIdx = (opponent, row, col) => {
+  let idx = 0;
+  for (let i = 0; i < opponent.ships.length; i++) {
+    if (opponent.ships[i].type === opponent.shipsGrid[row][col].type) {
+      idx = i;
+    }
+  }
+  return idx; 
+}
+
 const placeMove = ({ grid, row, col, rotated, player, opponent }) => {
   if (grid[row][col].status !== "empty") {
-    return {
-      isUpdated: false
-    }
+    return null
   }
   grid[row][col].hover = false;  
-  let turnLog = [];
-  turnLog.push(`${player} targeted ${dictionary[col]}${row}`)
-  const opponentShipIdx = () => {
-    let idx = 0;
-    for (let i = 0; i < opponent.ships.length; i++) {
-      if (opponent.ships[i].type === opponent.shipsGrid[row][col].type) {
-        idx = i;
-      }
-    }
-    return idx; 
-  }
-  const opponentShip = opponent.ships[opponentShipIdx()]; 
+  let log = [];
+  log.push(`${player} targeted ${dictionary[col]}${row}`)
+  const idx = getOpponentShipIdx(opponent, row, col);
+  const opponentShip = opponent.ships[idx]; 
   if (opponent.shipsGrid[row][col].status === "occupied") {
     opponent.shipsGrid[row][col].status = "hit";
     grid[row][col].status = "hit";
-    turnLog.push("It's a hit!")
+    log.push("It's a hit!")
     opponentShip.positions.forEach(position => {
       if (position.row === row && position.col === col) {
         position.hit = true;
@@ -65,20 +65,19 @@ const placeMove = ({ grid, row, col, rotated, player, opponent }) => {
         opponent.shipsGrid[row][col].status = "sunk"; 
         grid[row][col].status = "sunk";
       }); 
-      turnLog.push(`${player} sank a ${opponentShip.type}!`)
+      log.push(`${player} sank a ${opponentShip.type}!`)
       if (opponent.sunkenShips === 4) {
-        turnLog.push(`${player} wins!`); 
+        log.push(`${player} wins!`); 
       }
     }
   } else {
-    turnLog.push("It's a miss");
+    log.push("It's a miss");
     grid[row][col].status = "miss";
   }
   return {
     grid,
     opponent,
-    log: turnLog,
-    isUpdated: true
+    log
   } 
 };
 

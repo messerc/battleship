@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import {
-  placeShip,
-  hoverUpdate
-} from "../utils/shipGridHelpers";
+import { placeShip, hoverUpdate } from "../utils/shipGridHelpers";
 
 import ShipGridSquare from "./ShipGridSquare";
 import "../styles/Grid.css";
@@ -29,7 +26,7 @@ export default class ShipGrid extends Component {
       rotated,
       row,
       col,
-      type, 
+      type,
       ships,
       currentShip
     };
@@ -44,14 +41,14 @@ export default class ShipGrid extends Component {
       grid: grid.slice(),
       rotated,
       row,
-      col, 
+      col,
       ships,
       currentShip
     };
     const gameUpdate = placeShip(data);
-    if (gameUpdate.isUpdated) {
+    if (gameUpdate) {
       this.props.updateGrids(this.props.player, gameUpdate.grid, "shipsGrid");
-      this.props.updateShips(this.props.player, gameUpdate.ships, "shipsGrid"); 
+      this.props.updateShips(this.props.player, gameUpdate.ships, "shipsGrid");
     }
   }
 
@@ -63,30 +60,26 @@ export default class ShipGrid extends Component {
     });
   }
 
-  renderContent() {
+  renderSquares() {
     const { activePlayer, player, grid, shipsSet, gameOver } = this.props;
     if (player === activePlayer || gameOver) {
-      return (
-        grid.map((row, i) => {
-            return row.map((square, j) => {
-              return (
-                <ShipGridSquare
-                  key={`${i}${j}`}
-                  i={i}
-                  j={j}
-                  shipsSet={shipsSet}
-                  square={square}
-                  handleHover={this.handleHover}
-                  handleClick={this.handleClick}
-                />
-              );
-            });
-          })
-      )
+      return grid.map((row, i) => {
+        return row.map((square, j) => {
+          return (
+            <ShipGridSquare
+              key={`${i}${j}`}
+              i={i}
+              j={j}
+              shipsSet={shipsSet}
+              square={square}
+              handleHover={this.handleHover}
+              handleClick={this.handleClick}
+            />
+          );
+        });
+      });
     } else {
-      return (
-        <p>{activePlayer}'s turn</p>
-      )
+      return null;
     }
   }
 
@@ -94,10 +87,13 @@ export default class ShipGrid extends Component {
     const { activePlayer, player, ships, currentShip, shipsSet } = this.props;
     if (player === activePlayer && !shipsSet) {
       return (
-        <p className="placement-text">Now placing: {ships[currentShip].type} - size: {ships[currentShip].size}</p>
-      )
+        <p className="placement-text">
+          Now placing: {ships[currentShip].type} - size:{" "}
+          {ships[currentShip].size}
+        </p>
+      );
     } else {
-      return null
+      return null;
     }
   }
 
@@ -106,9 +102,7 @@ export default class ShipGrid extends Component {
     return (
       <div className="grid-container">
         <p className="grid-title"> Ships Grid </p>
-        <div className="grid">
-          {this.renderContent()}
-        </div>
+        <div className="grid">{this.renderSquares()}</div>
         {this.renderPlacement()}
         <button className="btn-rotate" onClick={this.handleRotate}>
           Rotate direction
