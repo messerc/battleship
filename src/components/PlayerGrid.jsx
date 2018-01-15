@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import {
   gridGenerator,
-  classUpdate,
   isOccupied,
   placeShip,
   hoverUpdate
 } from "../utils/gridHelpers";
+
+import GridSquare from "./GridSquare";
 import "../styles/Grid.css";
 
 export default class PlayerGrid extends Component {
@@ -18,33 +19,42 @@ export default class PlayerGrid extends Component {
     };
 
     this.handleRotate = this.handleRotate.bind(this);
+    this.handleHover = this.handleHover.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleHover(row, col, type) {
-    const { grid } = this.props;
-    const { rotated } = this.state; 
+    const { grid, ships, currentShip } = this.props;
+    const { rotated } = this.state;
     const data = {
       grid: grid.slice(),
       rotated,
       row,
       col,
-      type
+      type, 
+      ships,
+      currentShip
     };
     const updatedGrid = hoverUpdate(data);
     this.props.updateGrid(this.props.player, updatedGrid, "shipsGrid");
   }
 
   handleClick(row, col) {
-    const { grid } = this.props;
-    const { rotated } = this.state; 
+    const { grid, ships, currentShip } = this.props;
+    const { rotated } = this.state;
     const data = {
       grid: grid.slice(),
       rotated,
       row,
-      col
+      col, 
+      ships,
+      currentShip
     };
-    const updatedGrid = placeShip(data);
-    this.props.updateGrid(this.props.player, updatedGrid, "shipsGrid");
+    const gameUpdate = placeShip(data);
+    if (gameUpdate.isUpdated) {
+      this.props.updateGrid(this.props.player, gameUpdate.grid, "shipsGrid");
+      this.props.updateShips(this.props.player, gameUpdate.ships, "shipsGrid"); 
+    }
   }
 
   handleRotate() {
@@ -56,27 +66,21 @@ export default class PlayerGrid extends Component {
   }
 
   render() {
-    const { grid } = this.props;
+    const { grid, ships, shipsSet } = this.props;
     return (
       <div className="grid-container">
         <div className="grid">
           {grid.map((row, i) => {
             return row.map((square, j) => {
-              if (square.status === "label") {
-                return (
-                  <div key={`${i}${j}`}
-                    className="grid-square label">
-                    {square.label}
-                  </div>
-                )
-              }
               return (
-                <div
+                <GridSquare
                   key={`${i}${j}`}
-                  className={classUpdate(square)}
-                  onMouseEnter={() => this.handleHover(i, j, "enter")}
-                  onMouseLeave={() => this.handleHover(i, j, "leave")}
-                  onClick={() => this.handleClick(i, j)}
+                  i={i}
+                  j={j}
+                  shipsSet={shipsSet}
+                  square={square}
+                  handleHover={this.handleHover}
+                  handleClick={this.handleClick}
                 />
               );
             });

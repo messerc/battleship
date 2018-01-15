@@ -13,11 +13,7 @@ const ships = [
   },
   {
     type: "Submarine",
-    size: 2
-  },
-  {
-    type: "Destroyer",
-    size: 2
+    size: 3
   }
 ];
 

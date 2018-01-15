@@ -20,7 +20,6 @@ const hoverUpdate = ({ grid, row, col, rotated, type }) => {
 };
 
 const placeMove = ({ grid, row, col, rotated }) => {
-  // place a move 
   if (grid[row][col].status === "occupied") {
     return grid;
   }
@@ -34,10 +33,10 @@ const classUpdate = square => {
     classes += "active-occupied";
   } else if (square.hover) {
     classes += "active";
-  } else if (square.status === "occupied") {
-    classes += "occupied";
   } else if (square.hit) {
     classes += "hit";
+  } else if (square.miss) {
+    classes += "miss";
   }
   return classes;
 };

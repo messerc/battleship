@@ -23,7 +23,7 @@ const gridGenerator = () => {
       } else if (i !== 0 && j === 0) {
         row.push({ status: "label", label: i });
       } else {
-        row.push({ status: "empty", hover: false });        
+        row.push({ status: "empty", hover: false, hit: false, shipType: null });        
       }
     }
     grid.push(row);
@@ -31,19 +31,19 @@ const gridGenerator = () => {
   return grid;
 };
 
-const isOccupied = (grid, row, col, rotated) => {
+const isOccupied = (grid, row, col, rotated, ships, currentShip) => {
   let isTaken = false;
   if (!rotated) {
-    if (row + 3 <= 11) {
-      for (let i = 0; i < 3; i++) {
+    if (row + ships[currentShip].size <= 11) {
+      for (let i = 0; i < ships[currentShip].size; i++) {
         if (grid[row + i][col].status === "occupied") {
           isTaken = true;
         }
       }
     }
   } else {
-    if (col + 3 <= 11) {
-      for (let i = 0; i < 3; i++) {
+    if (col + ships[currentShip].size <= 11) {
+      for (let i = 0; i < ships[currentShip].size; i++) {
         if (grid[row][col + i].status === "occupied") {
           isTaken = true; 
         }
@@ -53,40 +53,52 @@ const isOccupied = (grid, row, col, rotated) => {
   return isTaken; 
 };
 
-const placeShip = ({ grid, row, col, rotated }) => {
-  // place the ship
-  if (isOccupied(grid, row, col, rotated)) {
-    return grid;
+const placeShip = ({ grid, row, col, rotated, ships, currentShip }) => {
+  if (isOccupied(grid, row, col, rotated, ships, currentShip)) {
+    return {
+      grid,
+      isUpdated: false
+    }
   } else {
     if (!rotated) {
-      if (row + 3 <= 11) {
-        for (let i = 0; i < 3; i++) {
+      if (row + ships[currentShip].size <= 11) {
+        for (let i = 0; i < ships[currentShip].size; i++) {
           grid[row + i][col].status = "occupied";
+          grid[row + i][col].hover = false;
+          // TODO: insert positions into this ship 
+          // ships[currentShip].positions.push()
         }
       }
     } else {
-      if (col + 3 <= 11) {
-        for (let i = 0; i < 3; i++) {
+      if (col + ships[currentShip].size <= 11) {
+        for (let i = 0; i < ships[currentShip].size; i++) {
           grid[row][col + i].status = "occupied";
+          grid[row + i][col].hover = false;
+          // TODO: insert positions into this ship 
+          // ships[currentShip].positions.push()
         }
       }
     }
-    return grid;
+    return {
+      grid,
+      ships,
+      isUpdated: true
+    }
   }
 };
 
-const hoverUpdate = ({ grid, row, col, rotated, type }) => {
+const hoverUpdate = ({ grid, row, col, rotated, type, ships, currentShip }) => {
   const bool = type === "enter" ? true : false;
   const position = grid[row][col];
   if (!rotated) {
-    if (row + 3 <= 11) {
-      for (let i = 0; i < 3; i++) {
+    if (row + ships[currentShip].size <= 11) {
+      for (let i = 0; i < ships[currentShip].size; i++) {
         grid[row + i][col].hover = bool;
       }
     }
   } else {
-    if (col + 3 <= 11) {
-      for (let i = 0; i < 3; i++) {
+    if (col + ships[currentShip].size <= 11) {
+      for (let i = 0; i < ships[currentShip].size; i++) {
         grid[row][col + i].hover = bool;
       }
     }

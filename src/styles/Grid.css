@@ -20,11 +20,7 @@
 }
 
 .occupied {
-  background-color: rgb(51, 153, 204);
-}
-
-.path {
-  background-color: rgb(205, 205, 205);
+  background-color: rgb(80, 81, 82);
 }
 
 .position {
@@ -33,6 +29,10 @@
 
 .active-occupied {
   background-color: red;
+}
+
+.hit {
+  background-color: yellow;
 }
 
 .btn-rotate {

@@ -5,6 +5,8 @@ import {
   classUpdate,
   placeMove
 } from "../utils/battleGridHelpers";
+
+import GridSquare from "./GridSquare";
 import "../styles/Grid.css";
 
 const dictionary = {
@@ -26,16 +28,18 @@ export default class BattleGrid extends Component {
     super(props);
 
     this.state = {
-      grid: gridGenerator(),
       rotated: false,
       activeSpot: null
     };
 
     this.handleRotate = this.handleRotate.bind(this);
+    this.handleHover = this.handleHover.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleHover(row, col, type) {
-    const { grid, rotated } = this.state;
+    const { grid } = this.props;
+    const { rotated } = this.state;
     const data = {
       grid: grid.slice(),
       rotated,
@@ -44,14 +48,15 @@ export default class BattleGrid extends Component {
       type
     };
     const updatedGrid = hoverUpdate(data);
+    this.props.updateGrid(this.props.player, updatedGrid, "movesGrid");
     this.setState({
-      grid: updatedGrid,
       activeSpot: `${dictionary[col]}${row}`
     });
   }
 
   handleClick(row, col) {
-    const { grid, rotated } = this.state;
+    const { grid, opponent } = this.props;
+    const { rotated } = this.state;
     const data = {
       grid: grid.slice(),
       rotated,
@@ -59,7 +64,10 @@ export default class BattleGrid extends Component {
       col
     };
     const updatedGrid = placeMove(data);
-    this.setState({ grid: updatedGrid });
+    if (opponent[row][col].status === "occupied") {
+      console.log("I hit you dawg");
+    }
+    this.props.updateGrid(this.props.player, updatedGrid, "movesGrid");
   }
 
   handleRotate() {
@@ -71,33 +79,28 @@ export default class BattleGrid extends Component {
   }
 
   render() {
-    const { grid, rotated } = this.state;
+    const { grid } = this.props;
+    const { rotated } = this.state;
     return (
       <div className="grid-container">
         <div
           className="grid"
           onMouseLeave={() => this.setState({ activeSpot: null })}
         >
-          {grid.map((row, i) => {
-            return row.map((square, j) => {
-              if (square.status === "label") {
-                return (
-                  <div key={`${i}${j}`} className="grid-square label">
-                    {square.label}
-                  </div>
-                );
-              }
-              return (
-                <div
-                  key={`${i}${j}`}
-                  className={classUpdate(square)}
-                  onMouseEnter={() => this.handleHover(i, j, "enter")}
-                  onMouseLeave={() => this.handleHover(i, j, "leave")}
-                  onClick={() => this.handleClick(i, j)}
-                />
-              );
-            });
-          })}
+        {grid.map((row, i) => {
+          return row.map((square, j) => {
+            return (
+              <GridSquare
+                key={`${i}${j}`}
+                i={i}
+                j={j}
+                square={square}
+                handleHover={this.handleHover}
+                handleClick={this.handleClick}
+              />
+            );
+          });
+        })}
         </div>
         <div className="position">Active Spot: {this.state.activeSpot}</div>
       </div>
