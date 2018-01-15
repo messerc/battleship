@@ -66,7 +66,7 @@ const placeMove = ({ grid, row, col, rotated, player, opponent }) => {
         grid[row][col].status = "sunk";
       }); 
       log.push(`${player} sank a ${opponentShip.type}!`)
-      if (opponent.sunkenShips === 4) {
+      if (opponent.sunkenShips === 5) {
         log.push(`${player} wins!`); 
       }
     }

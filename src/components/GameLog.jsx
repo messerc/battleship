@@ -11,7 +11,7 @@ export default class GameLog extends Component {
 
   renderTurn() {
     if (!this.props.allShipsSet) {
-      return "Set your ships"
+      return "Pre-game"
     } else if (this.props.gameStarting) {
       return "Game starting..."
     } else if (this.props.gameOver) {
@@ -29,7 +29,7 @@ export default class GameLog extends Component {
           {this.props.logs.map((log, i) => {
             return (
               <div key={i} className="turn-block">
-                Turn {log.turn}
+                {log.turn}
                 {log.messages.map((msg, j) => {
                   return <p className="log" key={j}>{msg}</p>
                 })}

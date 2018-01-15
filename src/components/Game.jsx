@@ -4,9 +4,10 @@ import BattleGrid from "./BattleGrid";
 import GameLog from "./GameLog";
 import ShipGrid from "./ShipGrid";
 
-import { createPlayer } from "../utils/gameHelpers";
+import { createPlayer, welcomeMessage } from "../utils/gameHelpers";
 
 import "../styles/Game.css";
+
 
 export default class Game extends Component {
   constructor() {
@@ -20,7 +21,7 @@ export default class Game extends Component {
       gameStarting: false,
       winner: null,
       gameOver: false,
-      logs: []
+      logs: [welcomeMessage]
     };
 
     this.updateGrids = this.updateGrids.bind(this);
@@ -130,7 +131,7 @@ export default class Game extends Component {
 
   updateLog(messages) {
     const updatedLog = this.state.logs.slice();
-    updatedLog.unshift({ turn: this.state.logs.length + 1, messages });
+    updatedLog.unshift({ turn: `Turn ${this.state.logs.length}`, messages });
     this.setState({
       logs: updatedLog
     });
