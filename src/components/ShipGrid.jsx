@@ -100,7 +100,7 @@ export default class ShipGrid extends Component {
   render() {
     return (
       <div className="grid-container">
-        <p className="grid-title"> Ships Grid </p>
+        <p className="grid-title"> Ship Grid </p>
         <div className="grid">{this.renderSquares()}</div>
         {this.renderPlacement()}
         <button className="btn-rotate" onClick={this.handleRotate}>
