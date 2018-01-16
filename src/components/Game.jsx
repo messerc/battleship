@@ -96,7 +96,7 @@ export default class Game extends Component {
       opponent
     }
     this.gridReducer("UPDATE", payload); 
-    if (opponent && opponent.sunkenShips === 4) {
+    if (opponent && opponent.sunkenShips === 5) {
       this.gridReducer("GAME_OVER", payload); 
     } else if (opponent) {
       this.gridReducer("HIT", payload); 
