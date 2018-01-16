@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  hoverUpdate,
-  classUpdate,
-  placeMove
-} from "../utils/battleGridHelpers";
+import { hoverUpdate, placeMove } from "../utils/battleGridHelpers";
 
 import BattleGridSquare from "./BattleGridSquare";
 import "../styles/Grid.css";
@@ -98,7 +94,7 @@ export default class BattleGrid extends Component {
   }
 
   renderSquares() {
-    const { grid, shipsSet } = this.props; 
+    const { grid, shipsSet } = this.props;
     return grid.map((row, i) => {
       return row.map((square, j) => {
         return (
@@ -118,13 +114,12 @@ export default class BattleGrid extends Component {
 
   render() {
     const { player } = this.props;
-    const { rotated } = this.state;
     return (
       <div className="grid-container">
         <p className="player-title">{player}</p>
         <p className="grid-title"> Battle Grid </p>
         <div className="grid" onMouseLeave={this.handleExit}>
-          {this.renderSquares()} 
+          {this.renderSquares()}
         </div>
         <div className="position">Active Spot: {this.state.activeSpot}</div>
       </div>

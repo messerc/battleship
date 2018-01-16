@@ -98,7 +98,6 @@ export default class ShipGrid extends Component {
   }
 
   render() {
-    const { grid, ships, shipsSet } = this.props;
     return (
       <div className="grid-container">
         <p className="grid-title"> Ships Grid </p>

@@ -46,7 +46,7 @@ export default class Game extends Component {
   }
   
   shipReducer(action, { updatedShips, player }) {
-    const { ships, currentShip, shipsSet } = this.state[player];
+    const { currentShip } = this.state[player];
     if (action === "SET_PLAYER_ONE") {
       this.setState({
         player1: {

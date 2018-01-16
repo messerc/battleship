@@ -57,7 +57,6 @@ const placeShip = ({ grid, row, col, rotated, ships, currentShip }) => {
 
 const hoverUpdate = ({ grid, row, col, rotated, type, ships, currentShip }) => {
   const bool = type === "enter" ? true : false;
-  const position = grid[row][col];
   if (!rotated) {
     if (row + ships[currentShip].size <= 11) {
       for (let i = 0; i < ships[currentShip].size; i++) {
